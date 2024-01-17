@@ -114,7 +114,7 @@ func main() {
 					EndCursor   string `graphql:"endCursor"`
 					HasNextPage bool   `graphql:"hasNextPage"`
 				}
-			} `graphql:"organizations(first: 100, after: $cursor)"`
+			} `graphql:"organizations(first: 10, after: $cursor)"`
 		} `graphql:"enterprise(slug: $slug)"`
 	}
 	fmt.Printf("Getting list of organizations in %s...\n", enterpriseSlug)
