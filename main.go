@@ -137,36 +137,36 @@ func main() {
 		}
 
 		// Promote this user to enterprise admin for all organizations where ViewerCanAdminister is false
-		for _, org := range orgListQuery.Enterprise.Organizations.Edges {
-			if !org.Node.ViewerCanAdminister {
-				fmt.Printf("Promoting user to admin for %s...\n", org.Node.Login)
-				var promoteAdmin struct {
-					UpdateEnterpriseOwnerOrganizationRole struct {
-						ClientMutationId string
-					} `graphql:"updateEnterpriseOwnerOrganizationRole(input: $input)"`
-				}
+		// for _, org := range orgListQuery.Enterprise.Organizations.Edges {
+		// 	if !org.Node.ViewerCanAdminister {
+		// 		fmt.Printf("Promoting user to admin for %s...\n", org.Node.Login)
+		// 		var promoteAdmin struct {
+		// 			UpdateEnterpriseOwnerOrganizationRole struct {
+		// 				ClientMutationId string
+		// 			} `graphql:"updateEnterpriseOwnerOrganizationRole(input: $input)"`
+		// 		}
 
-				type UpdateEnterpriseOwnerOrganizationRoleInput struct {
-					EnterpriseId     graphql.ID     `json:"enterpriseId"`
-					OrganizationId   graphql.ID     `json:"organizationId"`
-					OrganizationRole graphql.String `json:"organizationRole"`
-				}
+		// 		type UpdateEnterpriseOwnerOrganizationRoleInput struct {
+		// 			EnterpriseId     graphql.ID     `json:"enterpriseId"`
+		// 			OrganizationId   graphql.ID     `json:"organizationId"`
+		// 			OrganizationRole graphql.String `json:"organizationRole"`
+		// 		}
 
-				variables := map[string]interface{}{
-					"input": UpdateEnterpriseOwnerOrganizationRoleInput{
-						EnterpriseId:     graphql.ID(enterpriseID),
-						OrganizationId:   graphql.ID(org.Node.ID),
-						OrganizationRole: graphql.String("OWNER"),
-					},
-				}
+		// 		variables := map[string]interface{}{
+		// 			"input": UpdateEnterpriseOwnerOrganizationRoleInput{
+		// 				EnterpriseId:     graphql.ID(enterpriseID),
+		// 				OrganizationId:   graphql.ID(org.Node.ID),
+		// 				OrganizationRole: graphql.String("OWNER"),
+		// 			},
+		// 		}
 
-				err = client.Mutate("PromoteAdmin", &promoteAdmin, variables)
-				if err != nil {
-					log.Fatal(err)
-				}
-				fmt.Printf("User promoted to admin for %s\n", org.Node.Login)
-			}
-		}
+		// 		err = client.Mutate("PromoteAdmin", &promoteAdmin, variables)
+		// 		if err != nil {
+		// 			log.Fatal(err)
+		// 		}
+		// 		fmt.Printf("User promoted to admin for %s\n", org.Node.Login)
+		// 	}
+		// }
 
 		// If there are no more pages, break out of the loop
 		if !orgListQuery.Enterprise.Organizations.PageInfo.HasNextPage {
