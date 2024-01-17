@@ -54,7 +54,8 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	enterpriseID := enterpriseIDQuery.Enterprise.ID
+	
+	//enterpriseID := enterpriseIDQuery.Enterprise.ID
 
 	// Get a total count of organizations in the enterprise
 	var orgCountQuery struct {
